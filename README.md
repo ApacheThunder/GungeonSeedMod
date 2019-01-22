@@ -1,4 +1,4 @@
-Dungeon Seed Mod - v 1.0 by Apache Thunder.
+Gungeon Seed Mod - v 1.1 by Apache Thunder.
 
 Features:
 

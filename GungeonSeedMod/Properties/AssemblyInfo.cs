@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DungeonSeedMod")]
-[assembly: AssemblyDescription("DungeonSeedMod for Enter the Gungeon.")]
+[assembly: AssemblyTitle("GungeonSeedMod")]
+[assembly: AssemblyDescription("GungeonSeedMod for Enter the Gungeon.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Apache Modding Inc")]
-[assembly: AssemblyProduct("DungeonSeedMod")]
+[assembly: AssemblyProduct("GungeonSeedMod")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

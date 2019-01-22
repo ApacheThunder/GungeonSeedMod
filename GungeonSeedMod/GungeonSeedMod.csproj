@@ -7,8 +7,8 @@
     <ProjectGuid>{869A2D67-4A6C-4A21-9823-426D2752D3D2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DungeonSeedMod</RootNamespace>
-    <AssemblyName>DungeonSeedMod</AssemblyName>
+    <RootNamespace>GungeonSeedMod</RootNamespace>
+    <AssemblyName>GungeonSeedMod</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -50,7 +50,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DungeonSeedMod.cs" />
+    <Compile Include="GungeonSeedMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
