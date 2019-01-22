@@ -6,7 +6,6 @@ namespace GungeonSeedMod {
     public class GungeonSeedMod : ETGModule {
 
         public override void Init() { }
-        public override void Exit() { }
 
         public override void Start() {
             ETGModConsole.Commands.AddGroup("gungeonseed", delegate (string[] e) {
@@ -15,7 +14,7 @@ namespace GungeonSeedMod {
             });
             ETGModConsole.Commands.GetGroup("gungeonseed").AddUnit("checkseed", delegate (string[] e) { InitializeSeed(CheckSeed: true); });
             ETGModConsole.Commands.GetGroup("gungeonseed").AddUnit("setseed", SetSeed);
-            ETGModConsole.Commands.GetGroup("Gungeonseed").AddUnit("newseed", delegate (string[] e) {
+            ETGModConsole.Commands.GetGroup("gungeonseed").AddUnit("newseed", delegate (string[] e) {
                 InitializeSeed(BraveRandom.GenerationRandomRange(1, 1000000000), Random.Range(0, 1000), false);
             });
             ETGModConsole.Commands.GetGroup("gungeonseed").AddUnit("reset", delegate (string[] e) {
@@ -80,6 +79,8 @@ namespace GungeonSeedMod {
             // ETGModConsole.Log("New Dungeon Seed: " + GameManager.Instance.Dungeon.DungeonSeed);
             return;
         }
+
+        public override void Exit() { }
     }
 }
 
