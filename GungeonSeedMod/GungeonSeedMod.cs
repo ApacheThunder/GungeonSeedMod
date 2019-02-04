@@ -10,7 +10,7 @@ namespace GungeonSeedMod {
         public override void Start() {
             ETGModConsole.Commands.AddGroup("gungeonseed", delegate (string[] e) {
                 ETGModConsole.Log("[Gungeon Seed]  The following options are available for setting Gungeon Seeds:");
-                ETGModConsole.Log("checkseed\nsetseed\nnewseed\nreset\n\nTo set a custom seed, use 'setseed SEED1 SEED2' where SEED1 is the main Gungeon seed between 1 and 1000000000 and\n SEED2 is the RandomIntForRun seed. Set Seed2 to a value of 0 to 1000.\nNote that setting SEED1 to zero will disable seeded runs.\nTo ensure consistant results, set your seed after selecting a character at the breach but before leaving the breach.\nSetting a seed while in the middle of a run or via quick restart is not recommended.\nTo start a new seed, simply use 'gungeonseed newseed' and write down the displayed seed if you want to share it!.\nUse 'gungeonseed checkseed' to check your current seed.\n\nTo turn off custom seed mode, use 'gungeonseed reset' or set SEED1 argument of setseed to zero.");
+                ETGModConsole.Log("checkseed\nsetseed\nnewseed\nreset\n\nTo set a custom seed, use 'setseed SEED1 SEED2' where SEED1 is the main Gungeon seed between 1 and 1000000000 and\n SEED2 is the RandomIntForRun seed. Set Seed2 to a value of 0 to 1000.\nNote that setting SEED1 to zero will disable seeded runs.\nSEED2 is not required. If not specified, a default value of 256 will be used.\nTo ensure consistant results, set your seed after selecting a character at the breach but before leaving the breach.\nSetting a seed while in the middle of a run or via quick restart is not recommended.\nTo start a new seed, simply use 'gungeonseed newseed' and write down the displayed seed if you want to share it!.\nUse 'gungeonseed checkseed' to check your current seed.\n\nTo turn off custom seed mode, use 'gungeonseed reset' or set SEED1 argument of setseed to zero.");
             });
             ETGModConsole.Commands.GetGroup("gungeonseed").AddUnit("checkseed", delegate (string[] e) { InitializeSeed(CheckSeed: true); });
             ETGModConsole.Commands.GetGroup("gungeonseed").AddUnit("setseed", SetSeed);
@@ -37,30 +37,47 @@ namespace GungeonSeedMod {
         private void SetSeed(string[] args) {
             Dungeon dungeon = GameManager.Instance.Dungeon;
 
-            if (!SeedArgCount(args, 2, 2)) return;
+            if (!SeedArgCount(args, 1, 2)) { return; }
+
             if (int.Parse(args[0]) > 1000000000) {
-                ETGModConsole.Log("Error: Requested seed exceeds normal maximum value of 1000000000");
+                ETGModConsole.Log("Error: Requested SEED1 value exceeds normal maximum value of 1000000000");
                 return;
             }
 
-            if (int.Parse(args[1]) > 1000) {
-                ETGModConsole.Log("Error: Requested RandomIntForRun seed exceeds normal maximum value of 1000");
-                return;
+            // Use default if second seed not specified.
+            if (args.Length == 2) {
+
+                if (int.Parse(args[0]) == 0) { ETGModConsole.Log("Warning: Setting a seed of 0 will disable seeded runs!"); }
+
+                if (int.Parse(args[1]) > 1000) {
+                    ETGModConsole.Log("Error: Requested RandomIntForRun seed exceeds normal maximum value of 1000");
+                    return;
+                }
+                
+                if (dungeon.LevelOverrideType != GameManager.LevelOverrideState.FOYER) {
+                    ETGModConsole.Log("Warning: Setting a seed while not at the Breach can result in inconsistant results!");
+                }
+
+                InitializeSeed(int.Parse(args[0]), int.Parse(args[1]), false);
+            } else {
+                ETGModConsole.Log("Notice: SEED2 not specified. Using 256 as default value.");
+
+                if (int.Parse(args[0]) == 0) { ETGModConsole.Log("Warning: Setting a seed of 0 will disable seeded runs!"); }
+
+                if (dungeon.LevelOverrideType != GameManager.LevelOverrideState.FOYER) {
+                    ETGModConsole.Log("Warning: Setting a seed while not at the Breach can result in inconsistant results!");
+                }
+                // If SEED2 not specified, a default value of 256 will be used.
+                InitializeSeed(int.Parse(args[0]), 256, false);
             }
-
-            if (int.Parse(args[0]) == 0) { ETGModConsole.Log("Warning: Setting a seed of 0 will disable seeded runs!"); }
-
-            if (dungeon.LevelOverrideType != GameManager.LevelOverrideState.FOYER) {
-                ETGModConsole.Log("Warning: Setting a seed while not at the Breach can result in inconsistant results!");
-            }
-
-            InitializeSeed(int.Parse(args[0]), int.Parse(args[1]), false);
+            return;
         }
 
         private void InitializeSeed(int DungeonSeed = 0, int RandomIntForCurrentRun = 0, bool CheckSeed = false) {
             if (CheckSeed) {
                 ETGModConsole.Log("IsSeeded Status: " + GameManager.Instance.IsSeeded.ToString());
                 // ETGModConsole.Log("Current Dungeon Seed: " + GameManager.Instance.Dungeon.DungeonSeed);
+                // ETGModConsole.Log("Current Vanilla Seed: " + GameManager.SEED_LABEL);
                 ETGModConsole.Log("CurrentRunSeed: " + GameManager.Instance.CurrentRunSeed);
                 ETGModConsole.Log("RandomIntForRun: " + GameManager.Instance.RandomIntForCurrentRun);
                 ETGModConsole.Log("GetDungeonSeed Test: " + GameManager.Instance.Dungeon.GetDungeonSeed());
