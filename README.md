@@ -1,4 +1,4 @@
-Gungeon Seed Mod - v 1.1 by Apache Thunder.
+Gungeon Seed Mod (BepInEx version) - by Apache Thunder.
 
 Features:
 

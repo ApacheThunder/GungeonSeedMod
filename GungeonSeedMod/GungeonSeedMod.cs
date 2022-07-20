@@ -1,13 +1,16 @@
 ﻿using Dungeonator;
 using UnityEngine;
+using BepInEx;
 
 namespace GungeonSeedMod {
+    [BepInDependency("etgmodding.etg.mtgapi")]
+    [BepInPlugin(GUID, ModName, VERSION)]
+    public class GungeonSeedMod : BaseUnityPlugin {
+        public const string GUID = "ApacheThunder.etg.GungeonSeedMod";
+        public const string ModName = "GungeonSeedMod";
+        public const string VERSION = "1.4.0";
 
-    public class GungeonSeedMod : ETGModule {
-
-        public override void Init() { }
-
-        public override void Start() {
+        public void Start() {
             ETGModConsole.Commands.AddGroup("gungeonseed", delegate (string[] e) {
                 ETGModConsole.Log("[Gungeon Seed]  The following options are available for setting Gungeon Seeds:");
                 ETGModConsole.Log("checkseed\nsetseed\nnewseed\nreset\n\nTo set a custom seed, use 'setseed SEED1 SEED2' where SEED1 is the main Gungeon seed between 1 and 1000000000 and\n SEED2 is the RandomIntForRun seed. Set Seed2 to a value of 0 to 1000.\nNote that setting SEED1 to zero will disable seeded runs.\nSEED2 is not required. If not specified, a default value of 256 will be used.\nTo ensure consistant results, set your seed after selecting a character at the breach but before leaving the breach.\nSetting a seed while in the middle of a run or via quick restart is not recommended.\nTo start a new seed, simply use 'gungeonseed newseed' and write down the displayed seed if you want to share it!.\nUse 'gungeonseed checkseed' to check your current seed.\n\nTo turn off custom seed mode, use 'gungeonseed reset' or set SEED1 argument of setseed to zero.");
@@ -96,8 +99,7 @@ namespace GungeonSeedMod {
             // ETGModConsole.Log("New Dungeon Seed: " + GameManager.Instance.Dungeon.DungeonSeed);
             return;
         }
-
-        public override void Exit() { }
+        
     }
 }
 
